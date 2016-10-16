@@ -5,6 +5,51 @@ var path = require('path');
 var app = express();
 app.use(morgan('combined'));
 
+
+var articleOne={
+    title:'Aticle One|Tanza Fathima',
+    heading:'Article One',
+    date: 'Sep 5,2016',
+    content:
+      `<p>
+                 This is the content for my first article This is the content for my first article This is the content for my first article This is the content for my first article This is the content for my first article This is the content for my second article
+      </p>
+      <p>
+                 This is the content for my first article This is the content for my first article This is the content for my first article This is the content for my first article This is the content for my first article  This is the content for my first article 
+     </p> 
+     <p>
+                 This is the content for my first article This is the content for my first article This is the content for my first article This is the content for my first article This is the content for my first article  This is the content for my first article  
+   </p>`
+};
+
+var htmlTemplate=`
+<html>
+   <head>
+        <title>
+            Article one| Tanza Fathima
+        </title>
+        <meta name="viewport" content="width-device-width, initial-scale=1" />
+        <link href="/ui/style.css" rel="stylesheet" /> 
+    </head>
+   <body>
+        <div class="container">
+             <div>
+                <a href="/">home</a>
+            </div> 
+           <hr/>
+           <h3>
+               Article one
+           </h3>
+         <div>
+             Sep 5,2016
+         </div>
+         <div>
+             </div> 
+            
+         </div>
+   </body>
+</html>
+`;
 app.get('/',   function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
