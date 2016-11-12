@@ -20,7 +20,7 @@ button.onclick = function () {
    };
     
    // Make the request
-   request.open('GET', 'http://tanrib.imad.hasura-app.io/counter', true);
+   request.open('GET', 'http://kinzah.imad.hasura-app.io/counter', true);
    request.send(null);
 };    
 
