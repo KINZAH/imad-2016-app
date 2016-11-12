@@ -1,6 +1,6 @@
 body {
-    font-family: sans-serif;
-    margin-top: 20px;
+    font-family: sans-serif ,aerial;
+    margin-top: 60px;
     background-color: #66CCff;
 }
 
@@ -9,7 +9,7 @@ body {
 }
 
 .text-big {
-    font-size: 400%;
+    font-size: 300%;
 }
 
 .bold {
@@ -17,7 +17,7 @@ body {
 }
 
 .img-medium {
-    height: 500px;
+    height: 200px;
 }
 
 .container  {
