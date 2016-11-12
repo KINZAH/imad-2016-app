@@ -1,5 +1,9 @@
 body {
-    font-family: sans-serif ;
+    margin: 0 auto;
+    color: #9E9E9E;
+    font-family: sans-serif;
+    padding-left: 20px;
+    padding-right: 20px;
     margin-top: 60px;
     background-color: #66CCff;
 }
@@ -22,9 +26,4 @@ body {
 
 .container  {
     max-width: 800px;
-    margin: 0 auto;
-    color: #9E9E9E;
-    font-family: sans-serif;
-    padding-left: 20px;
-    padding-right: 20px;
  }
