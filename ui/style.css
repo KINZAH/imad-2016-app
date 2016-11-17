@@ -1,7 +1,7 @@
 body {
     font-family : sans-serif; 
     margin-top : 60px;
-    background-color:#EEEEE;
+    background-color:#EEE;
 }
 
 .center {
@@ -21,7 +21,6 @@ body {
 }
 
 .container  {
-    background-color: red;
     max-width: 800px;
     margin : 0 auto;
     color : #4a4a4a;
