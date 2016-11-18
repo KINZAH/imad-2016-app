@@ -35,7 +35,7 @@ var articles = {
        date:'Sep 15, 2016',
        content:`
           <p>
-              This is the content for my third article.
+                Distance Learning is a new way of learning and study. Distance education takes place when a teacher and students are separated by physical distance and technology. From their home, people can study and get a whole degree through a computer. Also, the students receive the same education as in a conventional course without interrupting their regular life. At the beginning, Distance Learning was offer for adult education or continuing education. Now, Distance Learning is spreading to all fields and to all type of students because of the demand. Universities and colleges are adopting this form of teaching as a learning opportunity for their students. In addition, many educational institutions are developing distance learning courses to provide increased educational opportunities without increased budgets. Courses in distance have a lot of benefits and advantages to offer. Distance learning helps people, with diverse situations, to finish their education while coming in contact with different technologies.
           </p>`
     }  
 };  
