@@ -25,7 +25,8 @@ var articles = {
           date:'Sep 10, 2016',
          content:`
             <p>
-                This is the content for my second article.
+                            There are two major categories of friends in this world. True friends are the people who are dependable, trustworthy, and will always be there in times of distress and laughter. The other type of friend is more of an acquaintance than a friend. These are the people that can be depended on during the good times, but when life turns slightly turbulent, they bail. I like to refer to these people as fair weather friends because it seems they only are interested in the friendship when life's forecast is bright and shiny.
+
             </p>`    
     },   
     'article-three' : {
