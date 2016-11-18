@@ -13,13 +13,10 @@ var articles = {
       date:'Sep 5, 2016',
       content:`
           <p>
-              This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
-          </p>
-          <p>
-                This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
-          </p>
-          <p>
-                This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.This is the content for my first article.
+                         Human rights are universal, indivisible and interdependent. Human rights are what make us human. When we speak of the right to life, or development, or to dissent and diversity, we are speaking of tolerance. Tolerance will ensure all freedoms. Without it, we can be certain of none. 
+             The raging ethnic cleansing in Kosovo is an example of intolerance. The Serbians will not tolerate the Albanians at any cost. They are forcing them from their homes, turning the streets into killing fields. This civil war seems unstoppable because of the intolerance of one race against another. No respect for individual rights, basic human rights. 
+             Another example is right in our own back yard. I am speaking of hate crimes which plague our society. They are no different today than centuries ago when slavery was allowed. One race against another. One religion against another, it is all the same. Hate is the opposite of tolerance. We can only live together through an expression of tolerance of the differences each of us brings into this world. We should embrace the differences and share the differences. For this is how we learn, through each others' differences. Tolerance in all cultures is the basis of peace and progress. 
+ 
           </p>`
    },
     'article-two' : {
