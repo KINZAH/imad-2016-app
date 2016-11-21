@@ -1,7 +1,7 @@
 body {
     font-family : sans-serif; 
     margin-top : 60px;
-    background-color: #66CCFF;
+    background: url('http://dash.ga.co/assets/jeff-bg.png');
 }
 
 .center {
