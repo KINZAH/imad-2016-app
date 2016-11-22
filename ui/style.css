@@ -1,7 +1,7 @@
 body {
     font-family : sans-serif; 
     margin-top : 60px;
-    background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbxA_UP-h8aNLWFG9SIwsqgnyxNhc8d0KpaS7PSL34CF3Gt8LK9ojj-DA")
+    background: url("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSjXQausAkwvDzqyMtH_hmMslX2C2Hq5Q35-VyMqLIi9vRQ9VXdwg")
 }
 
 .center {
@@ -17,7 +17,7 @@ body {
 }
 
 .img-medium {
-    height: 500px;
+    height: 200px;
 }
 
 .container  {
