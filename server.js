@@ -111,6 +111,6 @@ button1.onclick = function () {
             }
         }
     };
-};
     request.open('GET', 'http://kinzah.imad.hasura-app.io/counter/' + articleName, true);
     request.send(null);
+};
