@@ -185,23 +185,6 @@ app.get('/counter', function (req,res) {
 });
 
 
-app.get('/:articleName',function (req,res) {
-    pool.query("SELECT * FROM article WHERE title = $1", [req.params.articleName], function(err,result) {
-        if(err){
-            res.status(500).send(err.toString());
-    } else {
-        if(result.rows.length === 0)
-        {
-            res.status(404).send('Article not found');
-            } 
-            else {
-            var articleData = result.rows[0];
-            res.send(createTemplate(articleData));
-            }
-        }
-    });
-});
-
 app.get('/get-articles', function (req, res) {
    // make a select request
    // return a response with the results
@@ -255,6 +238,23 @@ app.post('/submit-comment/:articleName', function (req, res) {
     } else {
         res.status(403).send('Only logged in users can comment');
     }
+});
+
+app.get('/:articleName',function (req,res) {
+    pool.query("SELECT * FROM article WHERE title = $1", [req.params.articleName], function(err,result) {
+        if(err){
+            res.status(500).send(err.toString());
+    } else {
+        if(result.rows.length === 0)
+        {
+            res.status(404).send('Article not found');
+            } 
+            else {
+            var articleData = result.rows[0];
+            res.send(createTemplate(articleData));
+            }
+        }
+    });
 });
 
 app.get('/ui/article.js', function (req, res) {
