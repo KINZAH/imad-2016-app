@@ -80,7 +80,7 @@ app.get('/hash/:input', function (req,res){
 
 app.post('/create-user', function (req, res) {
    // username, password
-   // {"username": "username", "password": "password"}
+   // {"username": "tanmai", "password": "password"}
    // JSON
    var username = req.body.username;
    var password = req.body.password;
@@ -94,6 +94,7 @@ app.post('/create-user', function (req, res) {
       }
    });
 });
+
 
 app.post('/login', function (req, res) {
    var username = req.body.username;
