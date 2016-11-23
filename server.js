@@ -58,6 +58,16 @@ var htmlTemplate = `
          <div>
             ${content}
          </div>
+          <h2>Comments</h2>
+              <div id="comment_form">
+              </div>
+              <div id="comments">
+                <center>Loading comments...</center>
+              </div>
+          </div>
+                </div>
+            </div>
+        </div>
        </div>
        <script type="text/javascript" src="/ui/article.js"
      </body>
