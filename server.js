@@ -202,6 +202,18 @@ app.get('/:articleName',function (req,res) {
     });
 });
 
+app.get('/get-articles', function (req, res) {
+   // make a select request
+   // return a response with the results
+   pool.query('SELECT * FROM article ORDER BY date DESC', function (err, result) {
+      if (err) {
+          res.status(500).send(err.toString());
+      } else {
+          res.send(JSON.stringify(result.rows));
+      }
+   });
+});
+
 app.get('/get-comments/:articleName', function (req, res) {
    // make a select request
    // return a response with the results
