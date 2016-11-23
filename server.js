@@ -1,187 +1,116 @@
-var express = require('express');
-var morgan = require('morgan');
-var path = require('path');
-var Pool = require('pg').Pool;
-var crypto = require('crypto');
-var bodyParser = require('body-parser');
-var session = require('express-session');
+var articleName = window.location.pathname.split('/')[2];
+// request the server for the current value of Likes counter and render the response 
+var initrequest = new XMLHttpRequest();
+initrequest.onreadystatechange = function() {
+    if (initrequest.readyState === XMLHttpRequest.DONE) {
+        if (initrequest.status === 200) {
+            var initcounter = initrequest.responseText;
+            var initspan = document.getElementById('count');
+            initspan.innerHTML = initcounter.toString();
+        }
+    }
+};
+initrequest.open('GET', 'http://kinzah.imad.hasura-app.io/initcounter/' + articleName, true);
+initrequest.send(null);
 
-var config = {
-    user: 'kinzah',
-    database: 'kinzah',
-    host: 'db.imad.hasura-app.io',
-    port: '5432',
-    password: process.env.DB_PASSWORD
+function escapeHTML (text)
+{
+    var $text = document.createTextNode(text);
+    var $div = document.createElement('div');
+    $div.appendChild($text);
+    return $div.innerHTML;
+}
+
+// request server for the current comment list and render the comments
+var initcommrequest = new XMLHttpRequest();
+initcommrequest.onreadystatechange = function () {
+    if (initcommrequest.readyState === XMLHttpRequest.DONE) {
+    if (initcommrequest.status === 200) {
+        var commentsData = JSON.parse(this.responseText);
+        var list = '';
+        for (var i=0;i<commentsData.length;i++) {
+          list += '<li>' + escapeHTML(commentsData[i].comment) + '</li>' + '<span>' + ' by ' + escapeHTML(commentsData[i].user_name) + ' on ' + commentsData[i].date.split('T')[0] + '</span>';
+        }
+        var ul = document.getElementById('commlist');
+        ul.innerHTML = list;
+        }
+    }
+};
+initcommrequest.open('GET', 'http://kinzah.imad.hasura-app.io/initcmnt/' + articleName, true);
+initcommrequest.send(null);
+
+var checkrequest = new XMLHttpRequest();
+checkrequest.onreadystatechange = function() {
+    if (checkrequest.readyState === XMLHttpRequest.DONE) {
+        if (checkrequest.status === 200) {
+            var username = this.responseText;
+            var cmntarea = `
+                Write a comment...
+                <br/>
+                <textarea rows="2" cols="50" class="scrollabletextbox" id="comment" name="comments" ></textarea>
+                <br/>
+                <input type="submit" id="submit_btn" value="Submit"> </input>`;
+            document.getElementById('cmntInput').innerHTML = cmntarea;
+            document.getElementById('comment').addEventListener("keyup",function(event) {
+                if (event.keyCode == 13 ) {
+                event.preventDefault();
+                document.getElementById('submit_btn').click();
+                }
+            });
+            //on clicking Submit button, add the text in the comment box to the database and display the updated comments list 
+            var submit = document.getElementById('submit_btn');
+            submit.onclick = function() {
+                var commInput = document.getElementById('comment');
+                var comment = commInput.value;
+                if (comment > " ") {
+                    var request = new XMLHttpRequest();
+                    request.onreadystatechange = function () {
+                        if (request.readyState === XMLHttpRequest.DONE) {
+                        if (request.status === 200) {
+                            var commentsData = JSON.parse(this.responseText);
+                            var list = '';
+                            for (var i=0;i<commentsData.length;i++) {
+                              list += '<li>' + escapeHTML(commentsData[i].comment) + '</li>' + '<span>' + ' by ' + commentsData[i].user_name + ' on ' + commentsData[i].date.split('T')[0] + '</span>';
+                            }
+                            var ul = document.getElementById('commlist');
+                            ul.innerHTML = list;
+                            var cmntlink = document.getElementById('cmntlink');
+                            var cmntstring = commentsData[0].cmntcnt + ' comments';
+                            cmntlink.innerHTML = cmntstring;
+                            }
+                        } 
+                    };
+                    request.open('POST', 'http://kinzah.imad.hasura-app.io/submit-cmnt/' + articleName, true);
+                    request.setRequestHeader('Content-Type','application/json');
+                    request.send(JSON.stringify({comment : comment, username : username}));
+                    document.getElementById('comment').value="";
+                }
+            };
+        }
+        else {
+            var promptlogin = '**Please login/signup to post comments!';
+            document.getElementById('cmntInput').innerHTML = promptlogin;
+        }
+    }
 };
 
-var app = express();
-app.use(morgan('combined'));
-app.use(bodyParser.json());
-app.use(session({
-    secret: 'someRandomSecretValue',
-    cookie: {maxAge: 1000 * 60 * 60 *24 * 30}
-}));   
-
-function createTemplate (data) {
-    var title = data.title;
-    var date  = data.date;
-    var heading = data.heading;
-    var content = data.content;
-    
-var htmlTemplate = `
-  <html>
-    <head>
-        <title>
-            ${title}
-        </title>
-        <meta name="viewport" content ="width-device-width, initial-scale-1" />
-        <link href="/ui/style.css" rel="stylesheet" />
-     </head>
-    <body>
-        <div class= "container">
-      <div>
-            <a href= "/">Home</a>
-        </div>
-         <hr/>
-         <h3>
-            ${heading}
-         </h3>
-         <div>
-             ${date.toDateString()} 
-         </div>
-         <div>
-            ${content}
-         </div>
-       </div>
-     </body>
-   </html>
-    `;
-    return htmlTemplate;
-}
-
-app.get('/', function (req, res) {
- res.sendFile(path.join(__dirname, 'ui', 'index.html'));
-});
+checkrequest.open('GET', 'http://kinzah.imad.hasura-app.io/check-login', true);
+checkrequest.send(null);
 
 
-function hash (input,salt) {
-    //How do we create a hash?
-    var hashed = crypto.pbkdf2Sync(input, salt, 10000, 512,'sha512');
-    return ["pbkdf2", "10000", salt , hashed.toString('hex')].join('$');
-}
-
-
-app.get('/hash/:input', function(req,res) {
-    var hashedString = hash(req.params.input, 'this-is-some-random-string');
-    res.send(hashedString);
-});
-
-app.post('/create-user', function (req, res) {
-    // username, password
-    // {"username": "tanza", "password": "password"}
-    // JSON
-    var username = req.body.username;
-    var password = req.body.password;
-    var salt = crypto.randomBytes(128).toString('hex');
-    var dbString = hash(password, salt);
-    pool.query('INSERT INTO "user" (username, password) VALUES ($1, $2)', [username, dbString], function(err, result) {
-       if (err) {
-           res.status(500).send(err.toString());
-       } else {
-           res.send('User successfully created: ' + username);
-       }
-    });
-});
-
-app.post('/login', function (req, res) {
-    var username = req.body.username;
-    var password = req.body.password;
-    
-    pool.query('SELECT * FROM "user" WHERE username = $1', [username], function (err, result) {
-      if (err) {
-            res.status(500).send(err.toString());
-        } else {
-           if (result.rows.length === 0) {
-               res.send(403).send('username/password is invalid');
-           } else {
-               // Match the password
-               var dbString = result.rows[0].password;
-               var salt = dbString.split('$')[2];
-               var hashedPassword = hash(password, salt); // Creating a hash based on the password submitted and the original salt
-               if (hashedPassword === dbString) {
-                   
-                 // Set the session
-                 req.session.auth = {userId: result.rows[0].id};
-                 // set cookie with a session id
-                 // internally on the server side, it maps the session id to an object
-                 // { auth: {userid }}
-                   
-                 res.send('credentials correct!');
-                 
-               } else {
-                 res.send(403).send('username/password is invalid');
-               }
-           }
+//on clicking Like button request server to increment Like counter and render the new Like counter
+var button1 = document.getElementById('counter');
+button1.onclick = function () {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            if (request.status === 200) {
+                var counter = request.responseText;
+                var span = document.getElementById('count');
+                span.innerHTML = counter.toString();
+            }
         }
-    });
-});  
-
-app.get('/check-login', function (req, res) {
-   if (req.session && req.session.auth && req.session.auth.userId) {
-       res.send('You are logged in: ' + req.session.auth.userId.toString());
-   } else {
-       res.send('You are not logged in');
-   }
-});
-
-app.get('/logout', function (req, res) {
-    delete req.session.auth;
-    res.send('Logged out');
-});
-
-var pool = new Pool(config);
-app.get('/test-db', function (req, res) {
-    // make a select request
-    // return a response with the results
-    pool.query('SELECT * FROM test', function(err, result) {
-       if (err) {
-            res.status(500).send(err.toString());
-        } else {
-            res.send(JSON.stringify(result.rows));
-        }
-    });
-});
-
-     
-var counter = 0;
-app.get('/counter', function (req,res) {
-    counter = counter + 1;
-    res.send(counter.toString());
-});
-
- var names = [];
-app.get('/submit-name', function(req , res) { // URL: /submit-name?name-xxxxx
-    // Get the name from the request
-    var name = req.query.name;
-    
-    names.push(name);
-    // JSON: Javascript Object Notation
-    res.send(JSON.stringify(names));
-});
-
-app.get('/ui/style.css', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'style.css'));
-});
-
-app.get('/ui/main.js', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'main.js'));
-});  
-
-app.get('/ui/madi.png', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'madi.png'));
-});
-
-var port = 8080; // Use 8080 for local development because you might already have apache running on 80
-app.listen(8080, function () {
-  console.log(`IMAD course app listening on port ${port}!`);
-});
+    };
+};
+    request.open('GET', 'http://kinzah.imad.hasura-app.io/counter/' + articleName, true);
+    request.send(null);
