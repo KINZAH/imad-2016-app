@@ -59,6 +59,7 @@ var htmlTemplate = `
             ${content}
          </div>
        </div>
+       <script type="text/javascript" src="/ui/article.js"
      </body>
    </html>
     `;
