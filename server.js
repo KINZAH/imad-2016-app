@@ -69,7 +69,7 @@ var htmlTemplate = `
             </div>
         </div>
        </div>
-       <script type="text/javascript" src="/ui/article.js"
+       <script type="text/javascript" src="ui/article.js"
      </body>
    </html>
     `;
