@@ -295,7 +295,7 @@ app.get('/ui/madi.png', function (req, res) {
 });
 
 app.get('/ui/blog2.png', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'blog1.png'));
+  res.sendFile(path.join(__dirname, 'ui', 'blog2.png'));
 });
 
 app.get('/ui/about me.jpg', function (req, res) {
