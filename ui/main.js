@@ -1,12 +1,4 @@
 function loadLoginForm () {
-   /* var loginHtml = `
-        <h3>Login/Register to unlock awesome features</h3>
-        <input type="text" id="username" class="form-control" placeholder="Enter your Username" />
-        <input type="password" id="password" class="form-control" placeholder="Your password goes here..." />
-        <br/><br/>
-        <input type="submit" id="login_btn" value="Login" />
-        <input type="submit" id="register_btn" value="Register" />
-        `;*/
         var loginHtml = ` <h3>Login/Register Here for Posting Comments on the Articles!</h3>
         <div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
