@@ -298,7 +298,7 @@ app.get('/ui/blog3.jpg', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'blog3.jpg'));
 });
 
-app.get('/ui/about.jpg', function (req, res) {
+app.get('/ui/about me.jpg', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'about me.jpg'));
 });
 
